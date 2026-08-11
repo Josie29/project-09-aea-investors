@@ -1,0 +1,13 @@
+# Omakase Ruby styling for Rails, with RSpec cops layered on top.
+inherit_gem: { rubocop-rails-omakase: rubocop.yml }
+
+# RuboCop 1.72+ loads extensions via `plugins:`, not `require:`.
+plugins:
+  - rubocop-rspec
+
+AllCops:
+  NewCops: enable
+  Exclude:
+    - "db/schema.rb"
+    - "bin/**/*"
+    - "vendor/**/*"

@@ -1,0 +1,20 @@
+# Repo-root ignores. backend/ and frontend/ carry their own .gitignore for
+# framework-specific artefacts.
+
+# Real environment files. Only .env.example is committed, and it holds
+# placeholders only — never a working credential.
+.env
+.env.*
+!.env.example
+
+# Vendored agent skills fetched by the Clerk CLI. Regenerable from
+# skills-lock.json, and ~30 files of vendored docs would bury the actual
+# submission in a repo a reviewer has to read.
+.agents/
+
+# Symlinks into .agents/ — committing them yields broken links on a fresh clone,
+# since the target is ignored above.
+.claude/skills/
+
+# OS noise
+.DS_Store
