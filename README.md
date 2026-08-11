@@ -1,7 +1,7 @@
 # AEA Investors
 
-Take-home assessment for **AEA Investors** — building the **AI-Powered Onboarding
-Assistant** (Option 1). Full requirements: [BRIEF.md](BRIEF.md).
+Take-home assessment for **AEA Investors** — building an **AI-Powered Onboarding
+Assistant**. Full requirements: [BRIEF.md](BRIEF.md).
 
 ## Status
 
