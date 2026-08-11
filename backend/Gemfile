@@ -55,3 +55,7 @@ end
 
 # Database-backed Active Job adapter — no Redis [https://github.com/rails/solid_queue]
 gem "solid_queue", "~> 1.6"
+
+gem "jwt", "~> 3.2"
+
+gem "rack-cors", "~> 3.0"

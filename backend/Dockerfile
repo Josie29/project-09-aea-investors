@@ -7,16 +7,32 @@
 
 # For a containerized dev environment, see Dev Containers: https://guides.rubyonrails.org/getting_started_with_devcontainer.html
 
-# Make sure RUBY_VERSION matches the Ruby version in .ruby-version
+# Pinned explicitly (not interpolated from Gem.ruby_version) so the image is
+# reproducible and matches .ruby-version. Bump both together.
+# ruby:3.4.10-slim currently resolves to Debian 13 (trixie), which ships
+# Tesseract 5.5.x. That is deliberate — trixie is the current stable and the
+# newer Tesseract is a straight upgrade over bookworm's 5.3.0.
 ARG RUBY_VERSION=3.4.10
 FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 
 # Rails app lives here
 WORKDIR /rails
 
-# Install base packages
+# Install base packages.
+#
+# These must live in `base`, NOT in `build`: the build stage is thrown away and
+# only its bundle + /rails are copied into the final image, so anything the app
+# shells out to at runtime has to be installed here.
+#
+#   tesseract-ocr      OCR engine binary invoked from Ruby for ID extraction
+#   tesseract-ocr-eng  English language data (no traineddata, no OCR)
+#   tesseract-ocr-osd  orientation/script detection, for rotated ID photos
+#   poppler-utils      pdftoppm, to rasterize PDF-submitted IDs into images
+#                      Tesseract can read (Tesseract cannot ingest PDFs)
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libjemalloc2 libvips postgresql-client && \
+    apt-get install --no-install-recommends -y \
+      curl libjemalloc2 libvips postgresql-client \
+      poppler-utils tesseract-ocr tesseract-ocr-eng tesseract-ocr-osd && \
     ln -s /usr/lib/$(uname -m)-linux-gnu/libjemalloc.so.2 /usr/local/lib/libjemalloc.so && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
@@ -71,4 +87,16 @@ ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
+# DO NOT override this CMD (in Railway's start command, `docker run`, or compose).
+#
+# bin/docker-entrypoint only runs `db:prepare` when the final two arguments are
+# exactly `./bin/rails server`:
+#
+#   if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
+#
+# Railway's docs suggest a start command like `bin/rails server -b ::`, which
+# makes the last argument `::` and silently skips migrations — the app boots
+# against an unmigrated database and fails at request time, with nothing in the
+# build log to explain it. Binding and port do not need overriding: Rails 8
+# already binds 0.0.0.0 in production and config/puma.rb reads $PORT.
 CMD ["./bin/rails", "server"]

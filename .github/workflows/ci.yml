@@ -1,0 +1,113 @@
+name: CI
+
+# The brief requires tests + linters on every push; pull_request is added so forks
+# and PR merge commits are checked too.
+on:
+  push:
+  pull_request:
+
+# Supersede an in-flight run for the same ref instead of queueing behind it.
+# push and pull_request events have different github.ref values, so a PR branch
+# still gets both a branch run and a merge-commit run.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    name: Backend (RSpec + RuboCop)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    env:
+      RAILS_ENV: test
+      # Both URLs point at the database created by the service container below.
+      # config/database.yml reads TEST_DATABASE_URL for the test tier and falls
+      # back to DATABASE_URL, so both must resolve to a database that exists.
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/aea_onboarding_test
+      TEST_DATABASE_URL: postgres://postgres:postgres@localhost:5432/aea_onboarding_test
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: aea_onboarding_test
+        ports:
+          - 5432:5432
+        # Steps must not start before Postgres accepts connections.
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install system packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends --yes \
+            libpq-dev \
+            libvips-tools \
+            tesseract-ocr \
+            tesseract-ocr-eng
+        # libvips-tools pulls in the libvips runtime that image_processing/ruby-vips
+        # loads over FFI; Ubuntu has no plain `libvips` package (that is a Debian name).
+        # Tesseract is installed ahead of the OCR work so CI needs no change later.
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          # Required: defaults.run.working-directory applies to `run:` steps only,
+          # not to actions, so without this the action would look for .ruby-version
+          # and Gemfile.lock at the repo root and bundler-cache would fail.
+          working-directory: backend
+          bundler-cache: true
+
+      - name: Prepare database
+        run: bin/rails db:prepare
+
+      - name: Tests (RSpec)
+        run: bundle exec rspec
+
+      - name: Style (RuboCop)
+        run: bundle exec rubocop
+
+  frontend:
+    name: Frontend (Vitest + ESLint)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: npm
+          # Same monorepo trap as setup-ruby: the cache path is resolved by the
+          # action, not by defaults.run.working-directory.
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint (ESLint)
+        run: npm run lint
+
+      - name: Tests (Vitest)
+        run: npm test
+
+      - name: Build
+        run: npm run build

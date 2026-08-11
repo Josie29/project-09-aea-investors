@@ -42,6 +42,22 @@ cannot complete the handshake.
 - Tokens travel as `Authorization: Bearer`, never cookies. This removes the CSRF surface
   entirely and avoids `SameSite=None` third-party-cookie exposure across the Vercel and
   Railway origins.
+- **Rails holds no Clerk credential.** Verification uses the *public* JWKS, so a leak of
+  the API's environment does not expose anything that can mint tokens.
+
+### `azp` handling — verified empirically
+
+`azp` pins a token to the frontend origin that requested it. Clerk's documentation does
+not state what happens for tokens minted server-side, so this was measured rather than
+assumed: a token minted through the Backend API carries **no `azp` claim at all**
+(confirmed 2026-08-11 against the dev instance).
+
+The verifier therefore enforces the allowlist **only when `azp` is present** — a token
+naming a foreign origin is rejected, an absent one falls back to signature, issuer, and
+expiry. Rejecting absent `azp` would break every Server Component call.
+
+The same measurement confirmed **`exp - iat` is exactly 60 seconds**, which is why the
+API client resolves a token per request rather than caching one.
 - **Third-party PII processors, for disclosure:** Clerk receives identity data (email,
   authentication events). It never receives document images or extracted identity fields —
   OCR runs in our own container, which is why Tesseract is self-hosted rather than a cloud

@@ -11,3 +11,9 @@ AllCops:
     - "db/schema.rb"
     - "bin/**/*"
     - "vendor/**/*"
+
+# Default is 1, which does not survive contact with request specs: asserting the
+# status code AND the response body is one logical check, and splitting it re-issues
+# the same HTTP request per expectation for no diagnostic gain.
+RSpec/MultipleExpectations:
+  Max: 3

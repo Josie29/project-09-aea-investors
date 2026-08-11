@@ -78,13 +78,25 @@ component boundary should reflect the user's model, not the backend's.
 - API versioning starts at v1 rather than being retrofitted, since frontend and backend
   deploy independently (Vercel and Railway) and can drift between releases.
 
+## Deviations from the original plan
+
+Recorded as they happened, so the doc matches the repo rather than the intent:
+
+- **`backend/Dockerfile`, not `infra/docker/Dockerfile`.** `rails new` generates a
+  well-tuned multi-stage Dockerfile at the app root, and Railway auto-detects a Dockerfile
+  at its configured Root Directory (`/backend`). Moving it would mean hand-maintaining a
+  file Rails already maintains, plus extra Railway config, for no gain. `infra/` keeps k6
+  load scripts and any deploy-side extras.
+- **`backend/docker-compose.yml`** provides local Postgres 17 with separate development and
+  test databases. Not in the original layout, but the test suite truncates every table, so
+  a genuinely separate test database is a correctness requirement rather than a convenience.
+- **`backend/spec/`, not `backend/tests/`.** RSpec's default lookup path; fighting it means
+  configuring every tool that shells out to it.
+- **No Tailwind in `frontend/`.** The V0 design is a CSS custom-property token system;
+  Tailwind would duplicate and fight it. Tokens land in `src/styles/` at #17.
+
 ## Not yet created
 
-Deferred until the relevant tooling generates them, so nothing hand-written gets
-clobbered:
-
-- `backend/` Rails app files — `rails new --api` writes `Gemfile`, `config/`, `bin/`
-- `frontend/` Next.js app files — `create-next-app` writes `package.json`, configs
-- `.env.example` — required by the brief; author once the first real env var exists
-- `infra/docker/Dockerfile` — needs the Rails app present to build against
-- `.github/workflows/ci.yml` — needs test commands that actually run
+- `.env` / `.env.local` — real values, gitignored; only `.env.example` is committed
+- `frontend/src/app/(auth)/` contents — `clerk init` generates these at #6
+- Active Storage migration — installed with the Backblaze B2 work at #13
