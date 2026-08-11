@@ -1,11 +1,14 @@
 # AEA Investors — Take-Home Brief
 
-Hiring partner brief — AEA Investors. Two options were offered; the chosen one becomes
-the build target and this file will be updated to point at it.
+Hiring partner brief — AEA Investors. Two options were offered; Option 1 was chosen and
+is the build target.
 
-| Option | Brief | Summary |
-|--------|-------|---------|
-| 1 | [BRIEF-OPTION-1.md](BRIEF-OPTION-1.md) | AI-Powered Onboarding Assistant — LLM chatbot, OCR document extraction, scheduling, supportive content. Rails/Node + Next.js, 3 days. |
-| 2 | [BRIEF-OPTION-2.md](BRIEF-OPTION-2.md) | Patient Appointment & Scheduling Portal — two-sided calendar, concurrency-safe booking, status lifecycle, email reminders, PHI handling. Rails/Node/Django + Next.js, 3 days. |
+**Decision:** Option 1 — **AI-Powered Onboarding Assistant**. Full requirements:
+[BRIEF-OPTION-1.md](BRIEF-OPTION-1.md).
 
-**Decision:** not made.
+LLM chatbot + assessment, OCR document extraction with confirmation UX, appointment
+scheduling, and supportive-content surfacing. Rails (API/backend) + Next.js
+(React/TypeScript), 3-day timebox.
+
+Option 2 (Patient Appointment & Scheduling Portal) was declined and its brief removed;
+it remains in git history at commit `cbcb9a1` if needed.
