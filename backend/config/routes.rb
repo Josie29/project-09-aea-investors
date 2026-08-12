@@ -27,6 +27,12 @@ Rails.application.routes.draw do
       # withdrawing are the three things you can do to it.
       resource :consent, only: %i[show create destroy]
 
+      # The assessment conversation and the structured summary it produces.
+      resource :chat, only: %i[show create], controller: "chat"
+      resource :assessment, only: :update do
+        post :acknowledge
+      end
+
       # The uploaded ID. Singular, and consent-gated on create.
       resource :document, only: %i[show create]
 

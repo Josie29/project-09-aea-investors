@@ -3,8 +3,16 @@ class OnboardingSession < ApplicationRecord
   class ConsentRequired < StandardError; end
 
   belongs_to :user
+
+  # Every association is dependent: :destroy. A deletion request has to remove the
+  # whole record of a person's intake — the transcript of what they said about their
+  # mental health, the fields read off their ID, and the consent that covered it.
+  # An association added later without this quietly leaves orphaned PII behind.
   has_one :consent, dependent: :destroy
   has_one :booking, dependent: :destroy
+  has_one :document, dependent: :destroy
+  has_one :assessment, dependent: :destroy
+  has_many :chat_messages, dependent: :destroy
 
   validates :state, presence: true, inclusion: { in: Onboarding::StateMachine::STATES }
   validates :user_id, uniqueness: true

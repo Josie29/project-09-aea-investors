@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_12_171708) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_12_172901) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -53,6 +53,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_12_171708) do
     t.index ["starts_at"], name: "index_appointment_slots_on_starts_at"
   end
 
+  create_table "assessments", force: :cascade do |t|
+    t.datetime "acknowledged_at"
+    t.datetime "created_at", null: false
+    t.string "frequency"
+    t.string "modality"
+    t.bigint "onboarding_session_id", null: false
+    t.string "presenting_concern"
+    t.string "prior_care"
+    t.string "referral"
+    t.datetime "updated_at", null: false
+    t.string "urgency"
+    t.index ["onboarding_session_id"], name: "index_assessments_on_onboarding_session_id", unique: true
+  end
+
   create_table "bookings", force: :cascade do |t|
     t.bigint "appointment_slot_id", null: false
     t.datetime "created_at", null: false
@@ -60,6 +74,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_12_171708) do
     t.datetime "updated_at", null: false
     t.index ["appointment_slot_id"], name: "index_bookings_on_appointment_slot_id", unique: true
     t.index ["onboarding_session_id"], name: "index_bookings_on_onboarding_session_id", unique: true
+  end
+
+  create_table "chat_messages", force: :cascade do |t|
+    t.text "content", null: false
+    t.datetime "created_at", null: false
+    t.string "intent"
+    t.bigint "onboarding_session_id", null: false
+    t.string "role", null: false
+    t.datetime "updated_at", null: false
+    t.index ["onboarding_session_id", "created_at"], name: "index_chat_messages_on_onboarding_session_id_and_created_at"
+    t.index ["onboarding_session_id"], name: "index_chat_messages_on_onboarding_session_id"
   end
 
   create_table "consents", force: :cascade do |t|
@@ -235,8 +260,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_12_171708) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "assessments", "onboarding_sessions"
   add_foreign_key "bookings", "appointment_slots"
   add_foreign_key "bookings", "onboarding_sessions"
+  add_foreign_key "chat_messages", "onboarding_sessions"
   add_foreign_key "consents", "onboarding_sessions"
   add_foreign_key "documents", "onboarding_sessions"
   add_foreign_key "extracted_fields", "documents"
