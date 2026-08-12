@@ -1,27 +1,39 @@
+# Active Storage services.
+#
+# Uploaded ID documents are heavy PII. Two rules hold across every service defined
+# here: nothing is ever publicly readable, and nothing outlives the extraction and
+# confirmation it was uploaded for.
+
+# Test uses local disk deliberately. The suite creates and destroys attachments
+# constantly, and pointing it at a real bucket would both cost network round trips
+# and risk a test deleting production objects if an env var were ever misconfigured.
 test:
   service: Disk
   root: <%= Rails.root.join("tmp/storage") %>
 
+# Local development also stays on disk: developers should not need bucket credentials
+# to run the app, and an ID photo uploaded while debugging should not leave the laptop.
 local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
-# Use bin/rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
-# amazon:
-#   service: S3
-#   access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
-#   secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
-#   region: us-east-1
-#   bucket: your_own_bucket-<%= Rails.env %>
-
-# Remember not to checkin your GCS keyfile to a repository
-# google:
-#   service: GCS
-#   project: your_project
-#   credentials: <%= Rails.root.join("path/to/gcs.keyfile") %>
-#   bucket: your_own_bucket-<%= Rails.env %>
-
-# mirror:
-#   service: Mirror
-#   primary: local
-#   mirrors: [ amazon, google, microsoft ]
+# Backblaze B2 over its S3-compatible API.
+#
+# `public: false` is the important line. It makes Active Storage issue time-limited
+# signed URLs instead of permanent public ones — a permanent URL to a photograph of a
+# government ID is a leak that survives the record being deleted.
+b2:
+  service: S3
+  access_key_id: <%= ENV["B2_KEY_ID"] %>
+  secret_access_key: <%= ENV["B2_APPLICATION_KEY"] %>
+  bucket: <%= ENV["B2_BUCKET"] %>
+  region: <%= ENV["B2_REGION"] %>
+  endpoint: <%= ENV["B2_ENDPOINT"] %>
+  public: false
+  # B2 requires the bucket in the path rather than the hostname; without this the SDK
+  # builds virtual-host-style URLs that B2's S3 endpoint rejects.
+  force_path_style: true
+  upload:
+    # Server-side encryption at rest, on top of B2's own. Costs nothing and means an
+    # object retrieved outside the application is still ciphertext.
+    server_side_encryption: AES256

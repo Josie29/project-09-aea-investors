@@ -19,7 +19,15 @@ Rails.application.configure do
   # config.asset_host = "http://assets.example.com"
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :local
+  # Backblaze B2, private bucket with signed URLs. Never :local in production —
+  # Railway's filesystem is ephemeral, so a container restart would silently destroy
+  # documents mid-flow and there would be nothing to purge on a deletion request.
+  config.active_storage.service = :b2
+
+  # Signed URLs expire in minutes, not hours. The confirm screen fetches the image
+  # once, immediately; a long-lived URL to a photograph of a government ID is a leak
+  # that outlives the record itself.
+  config.active_storage.urls_expire_in = 5.minutes
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
   config.assume_ssl = true

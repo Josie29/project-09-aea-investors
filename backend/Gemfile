@@ -61,3 +61,5 @@ gem "jwt", "~> 3.2"
 gem "rack-cors", "~> 3.0"
 
 gem "ruby-vips", "~> 2.3"
+
+gem "aws-sdk-s3", "~> 1.229", require: false

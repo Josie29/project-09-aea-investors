@@ -12,7 +12,9 @@ RSpec.describe OnboardingSession do
     # mid-flow restarts from step one, which is exactly the abandonment the product
     # exists to prevent.
     it "returns the same session on a later visit, at the step they left off" do
-      described_class.for(user).advance_to!("assessment")
+      started = described_class.for(user)
+      Consent.grant!(started)
+      started.advance_to!("assessment")
 
       resumed = described_class.for(user.reload)
 
@@ -34,6 +36,10 @@ RSpec.describe OnboardingSession do
 
   describe "#advance_to!" do
     subject(:session) { described_class.for(user) }
+
+    # Consent gates the very first transition, so every test about ordering needs it
+    # on file first. That the gate exists is covered in the consent specs.
+    before { Consent.grant!(session) }
 
     it "moves forward one step and persists it" do
       session.advance_to!("assessment")
@@ -70,6 +76,8 @@ RSpec.describe OnboardingSession do
 
   describe "progress helpers" do
     subject(:session) { described_class.for(user) }
+
+    before { Consent.grant!(session) }
 
     it "reports the next state while the flow is unfinished" do
       expect(session.next_state).to eq("assessment")

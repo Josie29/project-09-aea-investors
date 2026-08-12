@@ -27,7 +27,10 @@ Rails.application.configure do
   config.cache_store = :memory_store
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :local
+  # Disk by default so the app runs without bucket credentials. Set
+  # ACTIVE_STORAGE_SERVICE=b2 to exercise the real signed-URL path locally.
+  config.active_storage.service = ENV.fetch("ACTIVE_STORAGE_SERVICE", "local").to_sym
+  config.active_storage.urls_expire_in = 5.minutes
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false

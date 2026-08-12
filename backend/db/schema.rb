@@ -10,9 +10,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_12_031709) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_12_172901) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.bigint "record_id", null: false
+    t.string "record_type", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.bigint "byte_size", null: false
+    t.string "checksum"
+    t.string "content_type"
+    t.datetime "created_at", null: false
+    t.string "filename", null: false
+    t.string "key", null: false
+    t.text "metadata"
+    t.string "service_name", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
 
   create_table "appointment_slots", force: :cascade do |t|
     t.string "clinician_name", null: false
@@ -25,6 +53,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_12_031709) do
     t.index ["starts_at"], name: "index_appointment_slots_on_starts_at"
   end
 
+  create_table "assessments", force: :cascade do |t|
+    t.datetime "acknowledged_at"
+    t.datetime "created_at", null: false
+    t.string "frequency"
+    t.string "modality"
+    t.bigint "onboarding_session_id", null: false
+    t.string "presenting_concern"
+    t.string "prior_care"
+    t.string "referral"
+    t.datetime "updated_at", null: false
+    t.string "urgency"
+    t.index ["onboarding_session_id"], name: "index_assessments_on_onboarding_session_id", unique: true
+  end
+
   create_table "bookings", force: :cascade do |t|
     t.bigint "appointment_slot_id", null: false
     t.datetime "created_at", null: false
@@ -32,6 +74,51 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_12_031709) do
     t.datetime "updated_at", null: false
     t.index ["appointment_slot_id"], name: "index_bookings_on_appointment_slot_id", unique: true
     t.index ["onboarding_session_id"], name: "index_bookings_on_onboarding_session_id", unique: true
+  end
+
+  create_table "chat_messages", force: :cascade do |t|
+    t.text "content", null: false
+    t.datetime "created_at", null: false
+    t.string "intent"
+    t.bigint "onboarding_session_id", null: false
+    t.string "role", null: false
+    t.datetime "updated_at", null: false
+    t.index ["onboarding_session_id", "created_at"], name: "index_chat_messages_on_onboarding_session_id_and_created_at"
+    t.index ["onboarding_session_id"], name: "index_chat_messages_on_onboarding_session_id"
+  end
+
+  create_table "consents", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "granted_at", null: false
+    t.bigint "onboarding_session_id", null: false
+    t.string "policy_version", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "withdrawn_at"
+    t.index ["onboarding_session_id"], name: "index_consents_on_onboarding_session_id", unique: true
+    t.index ["withdrawn_at"], name: "index_consents_on_withdrawn_at"
+  end
+
+  create_table "documents", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "image_purged_at"
+    t.bigint "onboarding_session_id", null: false
+    t.string "status", default: "pending", null: false
+    t.datetime "updated_at", null: false
+    t.index ["onboarding_session_id"], name: "index_documents_on_onboarding_session_id", unique: true
+    t.index ["status"], name: "index_documents_on_status"
+  end
+
+  create_table "extracted_fields", force: :cascade do |t|
+    t.decimal "confidence", precision: 4, scale: 3, default: "0.0", null: false
+    t.datetime "confirmed_at"
+    t.string "confirmed_value"
+    t.datetime "created_at", null: false
+    t.bigint "document_id", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.string "value"
+    t.index ["document_id", "name"], name: "index_extracted_fields_on_document_id_and_name", unique: true
+    t.index ["document_id"], name: "index_extracted_fields_on_document_id"
   end
 
   create_table "onboarding_sessions", force: :cascade do |t|
@@ -171,8 +258,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_12_031709) do
     t.index ["clerk_id"], name: "index_users_on_clerk_id", unique: true
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "assessments", "onboarding_sessions"
   add_foreign_key "bookings", "appointment_slots"
   add_foreign_key "bookings", "onboarding_sessions"
+  add_foreign_key "chat_messages", "onboarding_sessions"
+  add_foreign_key "consents", "onboarding_sessions"
+  add_foreign_key "documents", "onboarding_sessions"
+  add_foreign_key "extracted_fields", "documents"
   add_foreign_key "onboarding_sessions", "users"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
