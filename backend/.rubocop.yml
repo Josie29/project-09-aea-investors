@@ -17,3 +17,9 @@ AllCops:
 # the same HTTP request per expectation for no diagnostic gain.
 RSpec/MultipleExpectations:
   Max: 3
+
+# Default is 5. Some specs construct their input inline -- OCR word fixtures with
+# per-word confidences, multi-step request flows -- and hiding that setup behind a
+# helper to satisfy a line count makes the test harder to read, not easier.
+RSpec/ExampleLength:
+  Max: 8
