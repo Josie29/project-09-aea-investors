@@ -27,6 +27,9 @@ Rails.application.routes.draw do
       # withdrawing are the three things you can do to it.
       resource :consent, only: %i[show create destroy]
 
+      # The uploaded ID. Singular, and consent-gated on create.
+      resource :document, only: %i[show create]
+
       # Scheduling. The booking is singular for the same reason the session is:
       # a user has at most one, and no id in the URL means no other user's to name.
       resources :appointment_slots, only: :index
