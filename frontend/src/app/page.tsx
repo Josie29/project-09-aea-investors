@@ -20,6 +20,12 @@ export default async function Home() {
         <Link href="/sign-in" style={styles.link}>
           Sign in
         </Link>
+        {/* The wizard is reachable without signing in while it runs on fixtures, so
+            the screens can be reviewed without an account. It gets gated when the
+            onboarding session API lands and there is real per-user data behind it. */}
+        <Link href="/onboarding/consent" style={styles.link}>
+          Preview the intake flow &rarr;
+        </Link>
       </main>
     );
   }
@@ -41,6 +47,10 @@ export default async function Home() {
         <h1 style={styles.heading}>Onboarding Assistant</h1>
         <UserButton />
       </div>
+
+      <Link href="/onboarding/consent" className="btn">
+        Start intake <span aria-hidden="true">&rarr;</span>
+      </Link>
 
       {user ? (
         <section>

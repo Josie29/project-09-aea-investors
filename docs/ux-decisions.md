@@ -50,7 +50,11 @@ met. Requiring evidence of engagement keeps "long pause" as a real trigger (the 
 names it) while cutting the false-positive case that makes it feel surveillant.
 
 **Governing rules for all triggers:**
-- At most one supportive card per step.
+- At most one supportive card **visible at a time**. (Revised during implementation from
+  "one per step": the assessment step can run for several minutes, and refusing to
+  acknowledge a genuine later signal — a long stall after an earlier card was dismissed —
+  is worse than showing a second, different card. The no-repeat and dismissal rules below
+  are what actually prevent nagging.)
 - The same card never fires twice in a session.
 - Every card is dismissible, and dismissal suppresses that trigger for the rest of the session.
 - Triggers are a declarative table (condition → content), so the "never fires without a

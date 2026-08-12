@@ -1,0 +1,175 @@
+/*
+ * Styles for the document screens: the upload dropzone and the extracted-field list.
+ *
+ * These live beside the components rather than in styles/components.css because they
+ * are used by these two screens only. Tokens come from styles/tokens.css.
+ */
+
+/* ---------- upload ---------- */
+
+.dropzone {
+  border: 2px dashed var(--line-2);
+  background: var(--surface-2);
+  padding: var(--s7) var(--s4);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s3);
+}
+
+.dropzone .icon {
+  width: 3rem;
+  height: 3rem;
+  border: 1.5px solid var(--blue);
+  display: grid;
+  place-items: center;
+  color: var(--blue);
+}
+
+.dropzone .icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.dropzone h3 {
+  font-size: 1.125rem;
+}
+
+.dropzone .constraints {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--ink-3);
+}
+
+.upload-opts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s3);
+  justify-content: center;
+}
+
+/* ---------- extracted fields ---------- */
+
+.fields {
+  display: flex;
+  flex-direction: column;
+}
+
+.field {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s2);
+  padding: var(--s4) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.field:first-child {
+  padding-top: 0;
+}
+
+.field:last-child {
+  border-bottom: 0;
+}
+
+@media (min-width: 40rem) {
+  .field {
+    grid-template-columns: 9rem 1fr auto;
+    align-items: center;
+    gap: var(--s4);
+  }
+}
+
+.field label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.field input {
+  font: inherit;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  width: 100%;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid var(--line-2);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+/*
+ * Both attention states change the border *style* or *colour* as a secondary cue only.
+ * The chip beside the field carries the same information in words, which is what a
+ * user who cannot distinguish the coral relies on.
+ */
+.field.attention input {
+  border-color: var(--coral);
+  background: var(--coral-wash);
+}
+
+.field.blank input {
+  border-style: dashed;
+}
+
+.field .status {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+}
+
+.field .hint {
+  grid-column: 1 / -1;
+  font-size: 0.8125rem;
+  color: var(--ink-2);
+}
+
+@media (min-width: 40rem) {
+  .field .hint {
+    grid-column: 2 / -1;
+  }
+}
+
+/* Spacing for a supportive card sitting between the panel and the action row. */
+.support-slot {
+  display: block;
+  margin-top: var(--s4);
+}
+
+/* ---------- reviewer affordance ---------- */
+
+/*
+ * Visible on purpose while there is no OCR service to fail for real: a reviewer has to
+ * be able to reach the unreadable-photo path without editing code. Follows the same
+ * convention as the trigger label on SupportCard, and comes out with it.
+ */
+.reviewer-switch {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s3);
+  margin-top: var(--s4);
+  padding: var(--s3) var(--s4);
+  border: 1px dashed var(--line-2);
+  background: var(--surface-2);
+  font-size: 0.8125rem;
+  color: var(--ink-2);
+}
+
+.reviewer-switch .tag {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.02em;
+  color: var(--blue);
+}
+
+.reviewer-switch p {
+  flex: 1 1 16rem;
+}
+
+.reviewer-switch .opts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2);
+}

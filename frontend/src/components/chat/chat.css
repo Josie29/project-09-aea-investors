@@ -1,0 +1,163 @@
+/*
+ * Chat and assessment-summary classes, ported from the V0 mockup.
+ *
+ * Scoped to this directory rather than added to styles/components.css: the shared sheet
+ * is for vocabulary more than one screen speaks, and only step 02 speaks this.
+ * Spacing comes from the --s1..--s8 scale in tokens.css.
+ */
+
+.thread {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+  padding: var(--s4);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  max-height: 30rem;
+  overflow-y: auto;
+}
+
+.turn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s1);
+  max-width: 34rem;
+}
+
+.turn .who {
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.turn .bubble {
+  padding: var(--s3) var(--s4);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  font-size: 0.9375rem;
+}
+
+.turn.user {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.turn.user .bubble {
+  background: var(--blue-wash);
+  border-color: var(--blue);
+  color: var(--ink);
+}
+
+.composer {
+  display: flex;
+  gap: var(--s2);
+  border: 1px solid var(--line-2);
+  border-top: 0;
+  padding: var(--s3);
+  background: var(--surface);
+  align-items: center;
+}
+
+.composer input {
+  flex: 1;
+  font: inherit;
+  font-size: 0.9375rem;
+  padding: var(--s2) var(--s3);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.composer input::placeholder {
+  color: var(--ink-3);
+}
+
+.composer .send {
+  padding: var(--s2) var(--s3);
+  font-size: 0.75rem;
+}
+
+.assess {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.assess .row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s1);
+  padding: var(--s3) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.assess .row:last-child {
+  border-bottom: 0;
+}
+
+.assess .k {
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+/* Rows are editable in place (docs/ux-decisions.md §2), so the value is an input
+   styled to read as text until it is focused — the affordance is there without the
+   sidebar looking like a form. */
+.assess .v {
+  font: inherit;
+  font-size: 0.875rem;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid transparent;
+  padding: var(--s1);
+  margin: calc(-1 * var(--s1));
+  width: 100%;
+}
+
+.assess .v:hover {
+  border-color: var(--line);
+}
+
+.assess .v:focus {
+  border-color: var(--blue);
+  background: var(--surface);
+}
+
+.assess .v.pending::placeholder {
+  color: var(--ink-3);
+  font-style: italic;
+  opacity: 1;
+}
+
+.assess-foot {
+  font-size: 0.75rem;
+  color: var(--ink-3);
+  margin-top: var(--s3);
+}
+
+/* Explicit acknowledgement of the machine-written summary. Styled like the consent
+   check because it carries the same weight: nothing advances without it. */
+.ack {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--s3);
+  align-items: start;
+  margin-top: var(--s4);
+  padding: var(--s3);
+  border: 1px solid var(--line-2);
+  background: var(--surface-2);
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.ack input {
+  margin-top: var(--s1);
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--blue);
+}
