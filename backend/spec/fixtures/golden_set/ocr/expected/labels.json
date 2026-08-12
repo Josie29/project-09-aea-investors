@@ -1,0 +1,313 @@
+{
+  "generated_by": "generate_documents.py",
+  "seed": 20260812,
+  "synthetic": true,
+  "note": "Every document is fabricated. No real identity data appears in this repository.",
+  "scored_fields": [
+    "name",
+    "dob",
+    "address"
+  ],
+  "documents": [
+    {
+      "id": "clean_scan_01",
+      "tier": "clean_scan",
+      "filename": "clean_scan_01.png",
+      "name": "Marisol M. Okafor",
+      "dob": "1985-03-23",
+      "address": "6961 S Halsted St, Oak Park, IL 60302",
+      "id_number": "G702-6860-3849",
+      "note": "Flat, evenly lit scan."
+    },
+    {
+      "id": "clean_scan_02",
+      "tier": "clean_scan",
+      "filename": "clean_scan_02.png",
+      "name": "Priya J. Thorne",
+      "dob": "1990-03-15",
+      "address": "4948 W Cermak Rd, Apt 10D, Chicago, IL 60607",
+      "id_number": "H644-2046-8817",
+      "note": "Flat, evenly lit scan."
+    },
+    {
+      "id": "clean_scan_03",
+      "tier": "clean_scan",
+      "filename": "clean_scan_03.png",
+      "name": "Nkechi M. Nakamura",
+      "dob": "1977-06-05",
+      "address": "7677 S Wabash Ave, Apt 39B, Oak Park, IL 60302",
+      "id_number": "F215-9911-1243",
+      "note": "Flat, evenly lit scan."
+    },
+    {
+      "id": "clean_scan_04",
+      "tier": "clean_scan",
+      "filename": "clean_scan_04.png",
+      "name": "Yusuf Mbeki",
+      "dob": "1983-11-11",
+      "address": "3112 N Damen Ave, Chicago, IL 60607",
+      "id_number": "F292-6421-6644",
+      "note": "Flat, evenly lit scan."
+    },
+    {
+      "id": "clean_scan_05",
+      "tier": "clean_scan",
+      "filename": "clean_scan_05.png",
+      "name": "Rowan A. Adeyemi",
+      "dob": "1977-04-18",
+      "address": "8697 N Milwaukee Ave, Evanston, IL 60201",
+      "id_number": "F374-7825-5201",
+      "note": "Flat, evenly lit scan."
+    },
+    {
+      "id": "clean_scan_06",
+      "tier": "clean_scan",
+      "filename": "clean_scan_06.png",
+      "name": "Bjorn M. Bergeron",
+      "dob": "1993-06-06",
+      "address": "8183 W Grand Ave, Chicago, IL 60607",
+      "id_number": "E583-7675-5165",
+      "note": "Flat, evenly lit scan."
+    },
+    {
+      "id": "clean_scan_07",
+      "tier": "clean_scan",
+      "filename": "clean_scan_07.png",
+      "name": "Amara M. Lindqvist",
+      "dob": "1987-04-26",
+      "address": "7365 W Grand Ave, Evanston, IL 60201",
+      "id_number": "H952-2765-3011",
+      "note": "Flat, evenly lit scan."
+    },
+    {
+      "id": "clean_scan_08",
+      "tier": "clean_scan",
+      "filename": "clean_scan_08.png",
+      "name": "Hana R. Lindqvist",
+      "dob": "1958-10-16",
+      "address": "7782 N Ashland Ave, Oak Park, IL 60302",
+      "id_number": "D336-3198-3015",
+      "note": "Flat, evenly lit scan."
+    },
+    {
+      "id": "clean_scan_09",
+      "tier": "clean_scan",
+      "filename": "clean_scan_09.png",
+      "name": "Lucia R. Delacroix",
+      "dob": "2001-09-10",
+      "address": "787 N Damen Ave, Apt 31D, Oak Park, IL 60302",
+      "id_number": "D399-4618-7491",
+      "note": "Flat, evenly lit scan."
+    },
+    {
+      "id": "clean_scan_10",
+      "tier": "clean_scan",
+      "filename": "clean_scan_10.png",
+      "name": "Adaeze M. Ashworth",
+      "dob": "1968-10-19",
+      "address": "6994 W Fulton St, Evanston, IL 60201",
+      "id_number": "E545-5921-9629",
+      "note": "Flat, evenly lit scan."
+    },
+    {
+      "id": "clean_scan_11",
+      "tier": "clean_scan",
+      "filename": "clean_scan_11.png",
+      "name": "Priya J. Whitfield",
+      "dob": "1992-10-14",
+      "address": "8216 N Damen Ave, Oak Park, IL 60302",
+      "id_number": "G869-5954-3108",
+      "note": "Flat, evenly lit scan."
+    },
+    {
+      "id": "clean_scan_12",
+      "tier": "clean_scan",
+      "filename": "clean_scan_12.png",
+      "name": "Marisol A. Okafor",
+      "dob": "1991-02-05",
+      "address": "4022 W Cermak Rd, Evanston, IL 60201",
+      "id_number": "F415-8642-2947",
+      "note": "Flat, evenly lit scan."
+    },
+    {
+      "id": "phone_photo_13",
+      "tier": "phone_photo",
+      "filename": "phone_photo_13.jpg",
+      "name": "Adaeze R. Vasquez",
+      "dob": "1993-04-22",
+      "address": "8217 N Ashland Ave, Oak Park, IL 60302",
+      "id_number": "E554-7001-3686",
+      "note": "Hand-held photo: slight angle, uneven light, mild blur."
+    },
+    {
+      "id": "phone_photo_14",
+      "tier": "phone_photo",
+      "filename": "phone_photo_14.jpg",
+      "name": "Amara M. Thorne",
+      "dob": "1987-09-23",
+      "address": "5558 W Grand Ave, Oak Park, IL 60302",
+      "id_number": "D799-6005-8244",
+      "note": "Hand-held photo: slight angle, uneven light, mild blur."
+    },
+    {
+      "id": "phone_photo_15",
+      "tier": "phone_photo",
+      "filename": "phone_photo_15.jpg",
+      "name": "Nkechi Kowalski",
+      "dob": "1958-11-05",
+      "address": "4821 N Ashland Ave, Chicago, IL 60607",
+      "id_number": "H991-2542-1544",
+      "note": "Hand-held photo: slight angle, uneven light, mild blur."
+    },
+    {
+      "id": "phone_photo_16",
+      "tier": "phone_photo",
+      "filename": "phone_photo_16.jpg",
+      "name": "Nkechi A. Delacroix",
+      "dob": "1973-12-11",
+      "address": "8111 W Cermak Rd, Apt 30D, Evanston, IL 60201",
+      "id_number": "H895-3012-2041",
+      "note": "Hand-held photo: slight angle, uneven light, mild blur."
+    },
+    {
+      "id": "phone_photo_17",
+      "tier": "phone_photo",
+      "filename": "phone_photo_17.jpg",
+      "name": "Nkechi A. Okafor",
+      "dob": "1995-02-12",
+      "address": "4196 W Grand Ave, Apt 34B, Chicago, IL 60607",
+      "id_number": "E953-9450-2084",
+      "note": "Hand-held photo: slight angle, uneven light, mild blur."
+    },
+    {
+      "id": "phone_photo_18",
+      "tier": "phone_photo",
+      "filename": "phone_photo_18.jpg",
+      "name": "Nkechi Kowalski",
+      "dob": "1977-09-22",
+      "address": "4888 S Halsted St, Apt 37D, Oak Park, IL 60302",
+      "id_number": "H801-9173-7247",
+      "note": "Hand-held photo: slight angle, uneven light, mild blur."
+    },
+    {
+      "id": "phone_photo_19",
+      "tier": "phone_photo",
+      "filename": "phone_photo_19.jpg",
+      "name": "Amara A. Ferraro",
+      "dob": "1955-06-17",
+      "address": "5464 W Grand Ave, Oak Park, IL 60302",
+      "id_number": "D471-2379-9500",
+      "note": "Hand-held photo: slight angle, uneven light, mild blur."
+    },
+    {
+      "id": "phone_photo_20",
+      "tier": "phone_photo",
+      "filename": "phone_photo_20.jpg",
+      "name": "Priya Kowalski",
+      "dob": "1977-05-03",
+      "address": "4382 S Halsted St, Apt 26D, Evanston, IL 60201",
+      "id_number": "E126-3005-3449",
+      "note": "Hand-held photo: slight angle, uneven light, mild blur."
+    },
+    {
+      "id": "phone_photo_21",
+      "tier": "phone_photo",
+      "filename": "phone_photo_21.jpg",
+      "name": "Amara R. Adeyemi",
+      "dob": "1995-07-20",
+      "address": "4968 N Damen Ave, Chicago, IL 60607",
+      "id_number": "H755-9896-2497",
+      "note": "Hand-held photo: slight angle, uneven light, mild blur."
+    },
+    {
+      "id": "phone_photo_22",
+      "tier": "phone_photo",
+      "filename": "phone_photo_22.jpg",
+      "name": "Adaeze Kowalski",
+      "dob": "1984-11-12",
+      "address": "4943 W Cermak Rd, Oak Park, IL 60302",
+      "id_number": "E212-7782-2980",
+      "note": "Hand-held photo: slight angle, uneven light, mild blur."
+    },
+    {
+      "id": "phone_photo_23",
+      "tier": "phone_photo",
+      "filename": "phone_photo_23.jpg",
+      "name": "Ibrahim J. Adeyemi",
+      "dob": "1960-10-16",
+      "address": "4919 N Ashland Ave, Apt 40B, Evanston, IL 60201",
+      "id_number": "G630-6793-7995",
+      "note": "Hand-held photo: slight angle, uneven light, mild blur."
+    },
+    {
+      "id": "phone_photo_24",
+      "tier": "phone_photo",
+      "filename": "phone_photo_24.jpg",
+      "name": "Bjorn J. Kowalski",
+      "dob": "2001-07-19",
+      "address": "5962 N Milwaukee Ave, Apt 11D, Chicago, IL 60607",
+      "id_number": "H471-5382-5624",
+      "note": "Hand-held photo: slight angle, uneven light, mild blur."
+    },
+    {
+      "id": "hard_25",
+      "tier": "hard",
+      "filename": "hard_25.jpg",
+      "name": "Devon A. Ferraro",
+      "dob": "1967-05-06",
+      "address": "2886 S Wabash Ave, Evanston, IL 60201",
+      "id_number": "E147-1557-3794",
+      "note": "Steep angle, glare on the laminate, low resolution."
+    },
+    {
+      "id": "hard_26",
+      "tier": "hard",
+      "filename": "hard_26.jpg",
+      "name": "Adaeze A. Mbeki",
+      "dob": "2002-03-12",
+      "address": "2345 N Damen Ave, Evanston, IL 60201",
+      "id_number": "G609-8202-8066",
+      "note": "Steep angle, glare on the laminate, low resolution."
+    },
+    {
+      "id": "hard_27",
+      "tier": "hard",
+      "filename": "hard_27.jpg",
+      "name": "Priya R. Bergeron",
+      "dob": "2001-07-21",
+      "address": "4774 W Cermak Rd, Chicago, IL 60607",
+      "id_number": "D705-7382-7462",
+      "note": "Steep angle, glare on the laminate, low resolution."
+    },
+    {
+      "id": "hard_28",
+      "tier": "hard",
+      "filename": "hard_28.jpg",
+      "name": "Tomasz R. Lindqvist",
+      "dob": "1972-07-10",
+      "address": "5072 S Halsted St, Oak Park, IL 60302",
+      "id_number": "G414-5136-1915",
+      "note": "Steep angle, glare on the laminate, low resolution."
+    },
+    {
+      "id": "hard_29",
+      "tier": "hard",
+      "filename": "hard_29.jpg",
+      "name": "Tomasz J. Kowalski",
+      "dob": "1986-05-16",
+      "address": "7813 N Damen Ave, Oak Park, IL 60302",
+      "id_number": "F280-3203-5799",
+      "note": "Steep angle, glare on the laminate, low resolution."
+    },
+    {
+      "id": "hard_30",
+      "tier": "hard",
+      "filename": "hard_30.jpg",
+      "name": "Camila Delacroix",
+      "dob": "1981-06-25",
+      "address": "1250 S Blue Island Ave, Chicago, IL 60607",
+      "id_number": "E200-5755-1431",
+      "note": "Steep angle, glare on the laminate, low resolution."
+    }
+  ]
+}
