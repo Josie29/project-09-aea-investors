@@ -10,9 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_11_180713) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_12_012125) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "onboarding_sessions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "state", default: "consent", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["state"], name: "index_onboarding_sessions_on_state"
+    t.index ["user_id"], name: "index_onboarding_sessions_on_user_id", unique: true
+  end
 
   create_table "solid_queue_blocked_executions", force: :cascade do |t|
     t.string "concurrency_key", null: false
@@ -142,6 +151,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_11_180713) do
     t.index ["clerk_id"], name: "index_users_on_clerk_id", unique: true
   end
 
+  add_foreign_key "onboarding_sessions", "users"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_failed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

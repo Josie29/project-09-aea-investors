@@ -13,6 +13,15 @@ Rails.application.routes.draw do
 
       # The authenticated user's own record.
       get "me", to: "me#show"
+
+      # Singular: always the current user's session, no id in the URL, so another
+      # user's record cannot be named let alone reached.
+      get "onboarding_session", to: "onboarding_sessions#show_current"
+      patch "onboarding_session", to: "onboarding_sessions#update_current"
+
+      # Id-addressed and policy-guarded. Ownership is enforced explicitly here rather
+      # than only implied by the routes above.
+      resources :onboarding_sessions, only: :show
     end
   end
 
