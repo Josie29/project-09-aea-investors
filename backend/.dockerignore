@@ -1,0 +1,36 @@
+# See https://docs.docker.com/engine/reference/builder/#dockerignore-file for more about ignoring files.
+
+# Ignore git directory.
+/.git/
+/.gitignore
+
+# Ignore bundler config.
+/.bundle
+
+# Ignore all environment files. Real credentials live in backend/.env locally;
+# baking that into a layer would ship them to anyone who can pull the image.
+/.env*
+**/.env*
+
+# Ignore all default key files.
+/config/master.key
+/config/credentials/*.key
+
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+
+# Ignore storage (uploaded files in development and any SQLite databases).
+/storage/*
+
+# Ignore development files
+/.devcontainer
+**/node_modules/
+
+# Ignore local-only Postgres tooling (never part of the app image).
+/docker-compose.yml
+/docker/
+
+# Ignore Docker-related files
+/.dockerignore
+/Dockerfile*

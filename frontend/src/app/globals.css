@@ -1,0 +1,12 @@
+@import "../styles/tokens.css";
+@import "../styles/components.css";
+
+/* Page wrapper shared by the onboarding shell. */
+.wrap {
+  max-width: 74rem;
+  margin: 0 auto;
+  padding: var(--s5) var(--s4) var(--s8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s6);
+}

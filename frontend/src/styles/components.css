@@ -1,0 +1,490 @@
+/*
+ * Shared component styles, ported from the V0 mockup.
+ *
+ * Global rather than CSS modules on purpose: the mockup is authored as one coherent
+ * stylesheet, and keeping the class names identical makes it possible to diff the
+ * built UI against the design without translating names in your head.
+ *
+ * Every value references a token from tokens.css. Mobile-first: base styles target
+ * small screens, min-width queries scale up.
+ */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.02;
+  margin: 0;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--blue);
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Visually hidden but available to screen readers. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 0;
+}
+
+/* ---------- app frame ---------- */
+
+.app {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.appbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s4);
+  padding: var(--s3) var(--s4);
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.brandmark {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+}
+
+.brandmark .glyph {
+  width: 2rem;
+  height: 2rem;
+  border: 1.5px solid var(--ink);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+.brandmark .name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  letter-spacing: -0.01em;
+}
+
+.brandmark .sub {
+  font-size: 0.75rem;
+  color: var(--ink-3);
+}
+
+.secure {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  color: var(--ink-2);
+}
+
+.secure svg {
+  width: 0.875rem;
+  height: 0.875rem;
+  flex: none;
+}
+
+.frame {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 60rem) {
+  .frame {
+    grid-template-columns: 15rem 1fr;
+  }
+}
+
+/* ---------- step rail ---------- */
+
+.rail {
+  border-bottom: 1px solid var(--line);
+  background: var(--surface-2);
+  padding: var(--s3);
+  display: flex;
+  gap: var(--s2);
+  overflow-x: auto;
+}
+
+@media (min-width: 60rem) {
+  .rail {
+    border-bottom: 0;
+    border-right: 1px solid var(--line);
+    flex-direction: column;
+    padding: var(--s4);
+    gap: var(--s1);
+    overflow-x: visible;
+  }
+}
+
+.step {
+  appearance: none;
+  background: none;
+  border: 0;
+  border-left: 2px solid transparent;
+  font: inherit;
+  color: var(--ink-2);
+  text-align: left;
+  padding: var(--s2) var(--s3);
+  cursor: pointer;
+  display: flex;
+  align-items: baseline;
+  gap: var(--s3);
+  white-space: nowrap;
+  flex: none;
+  text-decoration: none;
+}
+
+.step:hover {
+  color: var(--ink);
+  background: var(--surface);
+}
+
+.step .num {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.step .label {
+  font-size: 0.875rem;
+}
+
+.step[aria-current="step"] {
+  color: var(--ink);
+  background: var(--surface);
+  border-left-color: var(--blue);
+  font-weight: 600;
+}
+
+.step[aria-current="step"] .num {
+  color: var(--blue);
+}
+
+/* Completion is marked with a checkmark glyph, not colour alone. */
+.step[data-done="true"] .num::after {
+  content: " \2713";
+  color: var(--green);
+}
+
+.rail-foot {
+  display: none;
+  margin-top: auto;
+  padding: var(--s3);
+  border-top: 1px solid var(--line);
+  font-size: 0.75rem;
+  color: var(--ink-3);
+  line-height: 1.4;
+}
+
+@media (min-width: 60rem) {
+  .rail-foot {
+    display: block;
+  }
+}
+
+/* ---------- screen ---------- */
+
+.screen {
+  padding: var(--s5) var(--s4);
+}
+
+@media (min-width: 48rem) {
+  .screen {
+    padding: var(--s6);
+  }
+}
+
+.screen-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+  margin-bottom: var(--s5);
+  max-width: 40rem;
+}
+
+.screen-head h2 {
+  font-size: clamp(1.375rem, 3.5vw, 1.75rem);
+}
+
+.screen-head p {
+  color: var(--ink-2);
+}
+
+.cols {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s5);
+}
+
+@media (min-width: 64rem) {
+  .cols {
+    grid-template-columns: 1fr 19rem;
+    align-items: start;
+  }
+}
+
+/* ---------- panel ---------- */
+
+.panel {
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.panel-head {
+  padding: var(--s3) var(--s4);
+  border-bottom: 1px solid var(--line);
+  background: var(--surface-2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s3);
+}
+
+.panel-body {
+  padding: var(--s4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+}
+
+/* ---------- buttons ---------- */
+
+.btn {
+  appearance: none;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.8rem 1.15rem;
+  border: 1px solid var(--blue);
+  background: var(--blue);
+  color: var(--btn-fg);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s3);
+  transition:
+    background 0.12s ease,
+    border-color 0.12s ease;
+  text-decoration: none;
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--blue-deep);
+  border-color: var(--blue-deep);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn .arrow {
+  font-family: var(--font-mono);
+  font-weight: 400;
+}
+
+.btn.ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--line-2);
+}
+
+.btn.ghost:hover:not(:disabled) {
+  background: var(--surface-2);
+  border-color: var(--ink-3);
+  color: var(--ink);
+}
+
+.btn.quiet {
+  background: transparent;
+  border-color: transparent;
+  color: var(--ink-2);
+  padding-left: 0;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.btn.quiet:hover:not(:disabled) {
+  color: var(--ink);
+  background: transparent;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s3);
+  margin-top: var(--s5);
+  padding-top: var(--s4);
+  border-top: 1px solid var(--line);
+}
+
+/* ---------- chips ---------- */
+
+.chip {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.02em;
+  padding: 0.2rem 0.45rem;
+  border: 1px solid currentColor;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.chip.ok {
+  color: var(--green);
+  background: var(--green-wash);
+}
+
+.chip.check {
+  color: var(--coral);
+  background: var(--coral-wash);
+}
+
+.chip.missing {
+  color: var(--ink-2);
+  background: var(--surface-2);
+}
+
+.chip.info {
+  color: var(--blue);
+  background: var(--blue-wash);
+}
+
+/* ---------- notes and banners ---------- */
+
+.note {
+  display: flex;
+  gap: var(--s3);
+  padding: var(--s3) var(--s4);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  font-size: 0.8125rem;
+  color: var(--ink-2);
+}
+
+.note .mark {
+  color: var(--blue);
+  font-family: var(--font-mono);
+}
+
+.banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s3) var(--s4);
+  border: 1px solid var(--coral);
+  border-left-width: 3px;
+  background: var(--coral-wash);
+  font-size: 0.875rem;
+  margin-bottom: var(--s4);
+}
+
+.banner .b-text {
+  flex: 1 1 18rem;
+}
+
+.banner strong {
+  font-weight: 700;
+}
+
+.banner .b-actions {
+  display: flex;
+  gap: var(--s2);
+}
+
+.banner .btn {
+  padding: 0.5rem 0.8rem;
+  font-size: 0.6875rem;
+}
+
+/* ---------- supportive content ---------- */
+
+.support-card {
+  border: 1px solid var(--coral);
+  border-left-width: 3px;
+  background: var(--coral-wash);
+  padding: var(--s4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+  max-width: 34rem;
+}
+
+.support-card .trigger {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--coral);
+  letter-spacing: 0.02em;
+}
+
+.support-card p {
+  font-size: 0.9375rem;
+}
+
+.support-card .links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s3);
+  margin-top: var(--s1);
+}

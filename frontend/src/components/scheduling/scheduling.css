@@ -1,0 +1,218 @@
+/*
+ * Styles for the booking and confirmation screens, ported from the V0 mockup.
+ *
+ * These live beside the components rather than in styles/components.css because they
+ * are used by two screens only; the shared file stays the vocabulary every screen uses.
+ * Tokens come from styles/tokens.css, which globals.css imports.
+ */
+
+/* ---------- scheduling ---------- */
+
+.cal {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.day {
+  background: var(--surface);
+  padding: var(--s4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+}
+
+.day .dhead {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.day .dow {
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.day .date {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.125rem;
+}
+
+.slots {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
+
+.slot {
+  appearance: none;
+  font: inherit;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+  padding: 0.55rem 0.6rem;
+  border: 1px solid var(--line-2);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s2);
+  transition:
+    border-color 0.12s ease,
+    background 0.12s ease;
+}
+
+.slot:hover:not(:disabled) {
+  border-color: var(--blue);
+  background: var(--blue-wash);
+}
+
+.slot[aria-pressed="true"] {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: var(--btn-fg);
+}
+
+/* Unavailability is carried by the strike-through and the "Just taken" text, not by
+   the muted colour — the same state has to survive a greyscale screen. */
+.slot:disabled {
+  color: var(--ink-3);
+  background: var(--surface-2);
+  cursor: not-allowed;
+  text-decoration: line-through;
+  text-decoration-color: var(--ink-3);
+}
+
+.slot .taken {
+  font-family: var(--font-body);
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+/* ---------- confirmation ---------- */
+
+.appt {
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--green);
+  background: var(--surface);
+  padding: var(--s5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+}
+
+.appt .when {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.25rem, 3vw, 1.625rem);
+  letter-spacing: -0.02em;
+}
+
+.appt dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--s2) var(--s5);
+  font-size: 0.875rem;
+}
+
+.appt dt {
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  align-self: center;
+}
+
+.appt dd {
+  margin: 0;
+}
+
+/* Replaces the mockup's inline style on the appointment button row. */
+.appt-actions {
+  display: flex;
+  gap: var(--s3);
+  flex-wrap: wrap;
+  margin-top: var(--s2);
+}
+
+/* Left-hand column of the confirmation screen: appointment card over next steps. */
+.done-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s5);
+}
+
+.next-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+}
+
+.next-steps li {
+  display: grid;
+  grid-template-columns: 1.5rem 1fr;
+  gap: var(--s3);
+  font-size: 0.9375rem;
+  align-items: start;
+}
+
+.next-steps .n {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--blue);
+  border: 1px solid var(--line-2);
+  width: 1.5rem;
+  height: 1.5rem;
+  display: grid;
+  place-items: center;
+}
+
+.data-controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+}
+
+.data-controls .receipt {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--ink-2);
+  display: flex;
+  gap: var(--s2);
+  align-items: baseline;
+}
+
+.data-controls .receipt .ok {
+  color: var(--green);
+}
+
+/* Replaces the mockup's inline style on the retention statement. */
+.data-controls .kept {
+  font-size: 0.8125rem;
+  color: var(--ink-2);
+}
+
+/* Shown after the withdrawal button is pressed. Coral is the attention accent used
+   everywhere else for "read this before you assume it worked". */
+.data-controls .not-wired {
+  font-size: 0.8125rem;
+  color: var(--ink-2);
+  border-left: 3px solid var(--coral);
+  background: var(--coral-wash);
+  padding: var(--s3);
+}

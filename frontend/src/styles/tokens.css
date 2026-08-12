@@ -1,0 +1,115 @@
+/*
+ * Design tokens, ported from the V0 UI mockup. Palette sampled from
+ * aeainvestors.com/elevate.
+ *
+ * Every colour, space, and font in the app comes from here — no hardcoded values in
+ * components. Both light and dark are defined: the media query is the default signal,
+ * and the [data-theme] selectors let an explicit toggle win in either direction.
+ */
+
+:root {
+  /* Ink — text, in descending emphasis */
+  --ink: #262626;
+  --ink-2: #5c5c5c;
+  --ink-3: #8a8a8a;
+
+  /* Surfaces */
+  --ground: #f2f2f0;
+  --surface: #ffffff;
+  --surface-2: #f7f7f6;
+  --line: #e2e2df;
+  --line-2: #cfcfca;
+
+  /* Accents. Coral means "needs your attention", green means "confirmed" — never
+     used decoratively, because status must stay legible. */
+  --blue: #4f77b0;
+  --blue-deep: #00334e;
+  --blue-wash: #eef2f8;
+  --coral: #d9563a;
+  --coral-wash: #fbeeea;
+  --green: #2f6b52;
+  --green-wash: #ecf3ef;
+
+  --focus: #00334e;
+  --btn-fg: #ffffff;
+  --shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
+
+  --font-display: "Helvetica Neue", Helvetica, "Arial Nova", Arial, sans-serif;
+  --font-body: "Helvetica Neue", Helvetica, "Arial Nova", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Spacing scale. Use these rather than arbitrary values. */
+  --s1: 0.25rem;
+  --s2: 0.5rem;
+  --s3: 0.75rem;
+  --s4: 1rem;
+  --s5: 1.5rem;
+  --s6: 2rem;
+  --s7: 3rem;
+  --s8: 4.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #e8e8e4;
+    --ink-2: #a3a8ad;
+    --ink-3: #767d84;
+    --ground: #0e1319;
+    --surface: #161d25;
+    --surface-2: #1c242d;
+    --line: #2a333d;
+    --line-2: #3a4550;
+    --blue: #7fa3d6;
+    --blue-deep: #b9d2ea;
+    --blue-wash: #1a2635;
+    --coral: #f0866b;
+    --coral-wash: #33201b;
+    --green: #6fbf98;
+    --green-wash: #16281f;
+    --focus: #7fa3d6;
+    --btn-fg: #0e1319;
+    --shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+  }
+}
+
+:root[data-theme="dark"] {
+  --ink: #e8e8e4;
+  --ink-2: #a3a8ad;
+  --ink-3: #767d84;
+  --ground: #0e1319;
+  --surface: #161d25;
+  --surface-2: #1c242d;
+  --line: #2a333d;
+  --line-2: #3a4550;
+  --blue: #7fa3d6;
+  --blue-deep: #b9d2ea;
+  --blue-wash: #1a2635;
+  --coral: #f0866b;
+  --coral-wash: #33201b;
+  --green: #6fbf98;
+  --green-wash: #16281f;
+  --focus: #7fa3d6;
+  --btn-fg: #0e1319;
+  --shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+}
+
+:root[data-theme="light"] {
+  --ink: #262626;
+  --ink-2: #5c5c5c;
+  --ink-3: #8a8a8a;
+  --ground: #f2f2f0;
+  --surface: #ffffff;
+  --surface-2: #f7f7f6;
+  --line: #e2e2df;
+  --line-2: #cfcfca;
+  --blue: #4f77b0;
+  --blue-deep: #00334e;
+  --blue-wash: #eef2f8;
+  --coral: #d9563a;
+  --coral-wash: #fbeeea;
+  --green: #2f6b52;
+  --green-wash: #ecf3ef;
+  --focus: #00334e;
+  --btn-fg: #ffffff;
+  --shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
+}

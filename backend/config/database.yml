@@ -1,0 +1,26 @@
+# Single-tier Postgres configuration.
+#
+# Every environment resolves to exactly one connection URL. Solid Queue tables live in
+# this same database (see db/migrate/*_create_solid_queue_tables.rb), so there is no
+# `queue:` tier here and no `connects_to` anywhere in config/environments.
+#
+# Local development and test run against the Docker Postgres in backend/docker-compose.yml.
+# Production reads the managed DATABASE_URL injected by the host.
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  # `max_connections` is the Rails 8.1 name for what used to be `pool`.
+  max_connections: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  url: <%= ENV["DATABASE_URL"] %>
+
+development:
+  <<: *default
+
+# TEST_DATABASE_URL must point at a local Postgres, never a managed/remote one:
+# the suite truncates tables between runs.
+test:
+  <<: *default
+  url: <%= ENV.fetch("TEST_DATABASE_URL", ENV["DATABASE_URL"]) %>
+
+production:
+  <<: *default

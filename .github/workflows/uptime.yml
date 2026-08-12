@@ -1,0 +1,49 @@
+name: Uptime
+
+# The brief measures uptime across the whole review window, so the check has to
+# outlive any local process. A scheduled workflow keeps the evidence in Actions
+# history, which a reviewer can read without an account on a third-party monitor.
+#
+# Five minutes is GitHub's minimum schedule granularity. Runs can be delayed under
+# load, so treat this as a health record rather than a precise SLA measurement.
+#
+# Side benefit: Neon auto-suspends when idle and a cold start costs ~1.1s versus
+# ~65ms warm. Pinging keeps the database awake, which protects the p95 target.
+#
+# NOTE: scheduled workflows only run on the repository's DEFAULT branch. This does
+# nothing until it is merged to main.
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+jobs:
+  probe:
+    name: Probe API health
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check /api/v1/health
+        env:
+          API_URL: https://api-production-60414.up.railway.app
+        run: |
+          set -euo pipefail
+
+          response=$(curl -sS --max-time 30 -w '\n%{http_code}' "$API_URL/api/v1/health")
+          body=$(printf '%s' "$response" | sed '$d')
+          code=$(printf '%s' "$response" | tail -n1)
+
+          echo "HTTP $code"
+          echo "$body"
+
+          if [ "$code" != "200" ]; then
+            echo "::error::Health endpoint returned HTTP $code"
+            exit 1
+          fi
+
+          # A 200 with a degraded dependency still means the product is broken for
+          # users, so assert on the reported status rather than the status code.
+          status=$(printf '%s' "$body" | python3 -c "import sys,json; print(json.load(sys.stdin)['status'])")
+          if [ "$status" != "ok" ]; then
+            echo "::error::Health reported status=$status"
+            exit 1
+          fi
