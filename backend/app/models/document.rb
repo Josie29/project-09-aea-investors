@@ -4,6 +4,7 @@ class Document < ApplicationRecord
   STATUSES = %w[pending processing extracted failed purged].freeze
 
   belongs_to :onboarding_session
+  has_many :extracted_fields, dependent: :destroy
   has_one_attached :image
 
   validates :status, inclusion: { in: STATUSES }
