@@ -10,9 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_12_012125) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_12_031709) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "appointment_slots", force: :cascade do |t|
+    t.string "clinician_name", null: false
+    t.datetime "created_at", null: false
+    t.integer "duration_minutes", default: 50, null: false
+    t.string "modality", default: "video", null: false
+    t.datetime "starts_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["clinician_name", "starts_at"], name: "index_appointment_slots_on_clinician_name_and_starts_at", unique: true
+    t.index ["starts_at"], name: "index_appointment_slots_on_starts_at"
+  end
+
+  create_table "bookings", force: :cascade do |t|
+    t.bigint "appointment_slot_id", null: false
+    t.datetime "created_at", null: false
+    t.bigint "onboarding_session_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["appointment_slot_id"], name: "index_bookings_on_appointment_slot_id", unique: true
+    t.index ["onboarding_session_id"], name: "index_bookings_on_onboarding_session_id", unique: true
+  end
 
   create_table "onboarding_sessions", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -151,6 +171,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_12_012125) do
     t.index ["clerk_id"], name: "index_users_on_clerk_id", unique: true
   end
 
+  add_foreign_key "bookings", "appointment_slots"
+  add_foreign_key "bookings", "onboarding_sessions"
   add_foreign_key "onboarding_sessions", "users"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

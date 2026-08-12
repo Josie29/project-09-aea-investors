@@ -22,6 +22,11 @@ Rails.application.routes.draw do
       # Id-addressed and policy-guarded. Ownership is enforced explicitly here rather
       # than only implied by the routes above.
       resources :onboarding_sessions, only: :show
+
+      # Scheduling. The booking is singular for the same reason the session is:
+      # a user has at most one, and no id in the URL means no other user's to name.
+      resources :appointment_slots, only: :index
+      resource :booking, only: %i[show create]
     end
   end
 
