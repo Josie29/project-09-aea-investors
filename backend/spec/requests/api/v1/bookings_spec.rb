@@ -7,6 +7,12 @@ RSpec.describe "Bookings" do
     auth_headers(clerk_token({ "sub" => clerk_id }))
   end
 
+  # Found by id, never by position. The listing is chronological and shared, so any
+  # other slot in the database can sit ahead of this test's own.
+  def slot_in(response, slot)
+    response.parsed_body["slots"].find { |entry| entry["id"] == slot.id } || {}
+  end
+
   let!(:slot) do
     AppointmentSlot.create!(starts_at: 3.days.from_now, clinician_name: "Dr. Amara Osei", modality: "video")
   end
@@ -16,7 +22,7 @@ RSpec.describe "Bookings" do
       get "/api/v1/appointment_slots", headers: headers_for("user_alice")
 
       expect(response).to have_http_status(:ok)
-      expect(response.parsed_body["slots"].first["clinician_name"]).to eq("Dr. Amara Osei")
+      expect(slot_in(response, slot)["clinician_name"]).to eq("Dr. Amara Osei")
     end
 
     # The design shows a claimed slot struck through rather than vanishing, so a user
@@ -28,7 +34,7 @@ RSpec.describe "Bookings" do
 
       get "/api/v1/appointment_slots", headers: headers_for("user_alice")
 
-      expect(response.parsed_body["slots"].first["taken"]).to be(true)
+      expect(slot_in(response, slot)["taken"]).to be(true)
     end
 
     it "omits slots in the past" do

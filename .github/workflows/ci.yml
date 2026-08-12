@@ -70,7 +70,7 @@ jobs:
           bundler-cache: true
 
       - name: Prepare database
-        run: bin/rails db:prepare
+        run: bin/rails db:test:prepare   # schema only; db:prepare also runs seeds, which must not leak into tests
 
       - name: Tests (RSpec)
         run: bundle exec rspec
