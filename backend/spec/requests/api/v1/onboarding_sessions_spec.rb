@@ -9,6 +9,13 @@ RSpec.describe "Onboarding sessions" do
     auth_headers(clerk_token({ "sub" => clerk_id }))
   end
 
+  # The flow refuses to leave the consent step without consent on file, so any test
+  # about step ordering has to clear that gate first. The gate itself is covered in
+  # the consent request specs.
+  def consent_for(clerk_id)
+    post "/api/v1/consent", headers: headers_for(clerk_id)
+  end
+
   describe "GET /api/v1/onboarding_session" do
     it "starts a session at the first step on first contact" do
       get "/api/v1/onboarding_session", headers: headers_for("user_alice")
@@ -20,7 +27,7 @@ RSpec.describe "Onboarding sessions" do
     # Resumability is the product's whole premise: a user who closes the tab mid-flow
     # must not restart from step one.
     it "returns the same session at the step the user left off" do
-      get "/api/v1/onboarding_session", headers: headers_for("user_alice")
+      consent_for("user_alice")
       patch "/api/v1/onboarding_session", params: { state: "assessment" }, headers: headers_for("user_alice")
 
       get "/api/v1/onboarding_session", headers: headers_for("user_alice")
@@ -49,6 +56,8 @@ RSpec.describe "Onboarding sessions" do
 
   describe "PATCH /api/v1/onboarding_session" do
     it "advances one step" do
+      consent_for("user_alice")
+
       patch "/api/v1/onboarding_session", params: { state: "assessment" }, headers: headers_for("user_alice")
 
       expect(response).to have_http_status(:ok)
@@ -64,6 +73,7 @@ RSpec.describe "Onboarding sessions" do
 
     # A retried or double-submitted request must not advance twice.
     it "rejects a replay of a transition already applied" do
+      consent_for("user_alice")
       patch "/api/v1/onboarding_session", params: { state: "assessment" }, headers: headers_for("user_alice")
       patch "/api/v1/onboarding_session", params: { state: "assessment" }, headers: headers_for("user_alice")
 

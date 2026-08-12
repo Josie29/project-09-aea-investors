@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_12_160914) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_12_162654) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -60,6 +60,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_12_160914) do
     t.datetime "updated_at", null: false
     t.index ["appointment_slot_id"], name: "index_bookings_on_appointment_slot_id", unique: true
     t.index ["onboarding_session_id"], name: "index_bookings_on_onboarding_session_id", unique: true
+  end
+
+  create_table "consents", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "granted_at", null: false
+    t.bigint "onboarding_session_id", null: false
+    t.string "policy_version", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "withdrawn_at"
+    t.index ["onboarding_session_id"], name: "index_consents_on_onboarding_session_id", unique: true
+    t.index ["withdrawn_at"], name: "index_consents_on_withdrawn_at"
   end
 
   create_table "onboarding_sessions", force: :cascade do |t|
@@ -203,6 +214,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_12_160914) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "bookings", "appointment_slots"
   add_foreign_key "bookings", "onboarding_sessions"
+  add_foreign_key "consents", "onboarding_sessions"
   add_foreign_key "onboarding_sessions", "users"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

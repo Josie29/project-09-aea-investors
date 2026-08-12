@@ -26,6 +26,8 @@ module Api
         render json: serialize(session)
       rescue Onboarding::StateMachine::InvalidTransition => e
         render json: { error: "invalid_transition", detail: e.message }, status: :unprocessable_content
+      rescue OnboardingSession::ConsentRequired => e
+        render json: { error: "consent_required", detail: e.message }, status: :forbidden
       end
 
       # GET /api/v1/onboarding_sessions/:id

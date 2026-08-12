@@ -23,6 +23,10 @@ Rails.application.routes.draw do
       # than only implied by the routes above.
       resources :onboarding_sessions, only: :show
 
+      # Consent. Singular: a user has one consent record, and granting, checking, and
+      # withdrawing are the three things you can do to it.
+      resource :consent, only: %i[show create destroy]
+
       # Scheduling. The booking is singular for the same reason the session is:
       # a user has at most one, and no id in the URL means no other user's to name.
       resources :appointment_slots, only: :index

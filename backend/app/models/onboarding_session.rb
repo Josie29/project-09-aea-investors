@@ -1,5 +1,10 @@
 class OnboardingSession < ApplicationRecord
+  # Raised when the flow would move past the consent step without consent on file.
+  class ConsentRequired < StandardError; end
+
   belongs_to :user
+  has_one :consent, dependent: :destroy
+  has_one :booking, dependent: :destroy
 
   validates :state, presence: true, inclusion: { in: Onboarding::StateMachine::STATES }
   validates :user_id, uniqueness: true
@@ -25,8 +30,17 @@ class OnboardingSession < ApplicationRecord
   #   double-submitted request cannot silently skip a step it did not intend
   # @return [self]
   # @raise [Onboarding::StateMachine::InvalidTransition]
+  # @raise [ConsentRequired] if leaving the consent step without active consent
   def advance_to!(to)
     Onboarding::StateMachine.validate_transition!(from: state, to: to)
+
+    # Structural, not a frontend courtesy. Everything after this step collects or
+    # derives personal data, so a client that skips the consent screen — or replays
+    # this call after withdrawal — is stopped here rather than trusted.
+    if state == Onboarding::StateMachine::INITIAL && !consent&.active?
+      raise ConsentRequired, "consent is required before the intake can continue"
+    end
+
     update!(state: to)
     self
   end
